@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(tavernbg.jpg);
+    background-size: 100%;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+body::after {
+    content: "";
+    background-color: #000000;
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+}
+h1 {
+    color: #333;
+}
+table{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+.profile-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 20px 0;
+}
+.profile {
+    background-color: #030303    ;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+.profile:hover {
+    transform: translateY(-10px);
+}
+#dp-pic {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #ccc;
+    margin-bottom: 10px;
+}
+.profile h2 {
+    margin: 10px 0;
+    color: #fffebd; 
+    -webkit-text-stroke: 0.7px rgb(0, 0, 0);
+}   
+.profile p {
+    color: #f5f5f5;
+    margin: 10px 0;
+}
+.profile .title {
+    color: #9a9a9a;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.info-section {
+    display: none;
+    text-align: left;
+    margin-top: 10px;
+}
+.info-header {
+    cursor: pointer;
+    color: #007BFF;
+    text-decoration: underline;
+}
+.button {
+    background-color: #fffebd; /* Green background */
+    border: none; /* Remove borders */
+    color: #030303; /* White text */
+    padding: 15px 32px; /* Some padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make the container fit its content */
+    font-size: 16px; /* Increase font size */
+    margin: 4px 2px; /* Add some margins */
+    cursor: pointer; /* Pointer/hand icon on hover */
+    border-radius: 12px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.button:hover {
+    background-color: #f7ce65; /* Darker green on hover */
+}

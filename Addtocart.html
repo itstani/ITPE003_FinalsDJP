@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shops and Scams</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+
+    </style>
+    <script src="javascriptFile.js"></script>
+</head>
+
+<body>
+    <div class="headerbg">
+        <div class="header"> 
+            <div class="title-container">
+                <img id="ribbon" src="Shops and Scams Ribbon.png" alt="Ribbon">
+                <img id="shopsandscams" src="Shops and Scams title.png" alt="Shops and Scams">
+
+                <button type="button" class="inventory-button" onclick="location.href='main.html'">
+                    <img id="inventory" src="Inventory.png" alt="Inventory">
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="Items list">
+        <div id="item-list"></div>
+    </div>
+
+    <script>
+        fetch('/api/items')
+          .then(response => response.json())
+          .then(items => {
+            const itemListElement = document.getElementById('item-list');
+            items.forEach(item => {
+              const itemElement = document.createElement('div');
+              itemElement.className = 'item-box';
+              itemElement.innerHTML = `
+                <h2>${item.name}</h2>
+                <p>${item.description}</p>
+                <p>Quantity: ${item.quantity}</p>
+              `;
+              itemListElement.appendChild(itemElement);
+            });
+          })
+          .catch(error => console.error(error));
+    </script>
+</body>
+
+</html>

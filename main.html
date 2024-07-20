@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shops and Scams</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <style >
+    <style>
         
     </style>
-    <script src="javascriptFile.js"></script>
+ 
+    
 </head>
 <body onload="onLoadSetValues()">
     <div class="headerbg">
@@ -16,6 +17,11 @@
             <div class="title-container">
                 <img id="ribbon" src="Shops and Scams Ribbon.png" alt="Ribbon">
                 <img id="shopsandscams" src="Shops and Scams title.png" alt="Shops and Scams">
+
+                <button type="button" class="inventory-button" onclick="location.href='addtocart.html'">
+                    <img id="inventory" src="Inventory.png" alt="Inventory">
+                </button>
+
             </div>
         </div>
     </div>
@@ -26,7 +32,8 @@
             <h2>Antique red 7 Dice set</h2>
             <p class="title">Dice</p>
             <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button" onclick="AddToInventoryButton()">
+            <input type="button" value="Add to inventory" class="button" onclick="addItemToCart('669709ac2949a109f774c451')">
+            
         </div>
         <div class="profile" >
             <img id="dp-pic" src="/Dices/GreenDIceWithBronze.png" alt="GreenDIceWithBronze">
@@ -177,37 +184,60 @@
             <img src="arrowright.png" alt="Arrow Right">
         </button>
     </div>
+
+    <div class="image-container">
+        <img id="success-image" src="Itemadded.png" alt="Item added successfully">
+    </div>
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-    const dicesets = document.querySelector('.dicesets');
-    const minifigures = document.querySelector('.minifigures');
+            const dicesets = document.querySelector('.dicesets');
+            const minifigures = document.querySelector('.minifigures');
 
-    minifigures.style.opacity = 0;
-    minifigures.style.pointerEvents = 'none';
-
-    function toggleSections() {
-        if (dicesets.style.opacity == 1 || dicesets.style.opacity === '') {
-            dicesets.style.opacity = 0;
-            dicesets.style.pointerEvents = 'none';
-            setTimeout(() => {
-                minifigures.style.opacity = 1;
-                minifigures.style.pointerEvents = 'auto';
-            }, 500); 
-        } else {
             minifigures.style.opacity = 0;
             minifigures.style.pointerEvents = 'none';
-            setTimeout(() => {
-                dicesets.style.opacity = 1;
-                dicesets.style.pointerEvents = 'auto';
-            }, 500); 
-        }
-    }
 
-    // Add event listeners to the arrow buttons
-    document.querySelector('.arrow-left .arrow-button').addEventListener('click', toggleSections);
-    document.querySelector('.arrow-right .arrow-button').addEventListener('click', toggleSections);
-});
+            function toggleSections() {
+                if (dicesets.style.opacity == 1 || dicesets.style.opacity === '') {
+                    dicesets.style.opacity = 0;
+                    dicesets.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        minifigures.style.opacity = 1;
+                        minifigures.style.pointerEvents = 'auto';
+                    }, 500); 
+                } else {
+                    minifigures.style.opacity = 0;
+                    minifigures.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        dicesets.style.opacity = 1;
+                        dicesets.style.pointerEvents = 'auto';
+                    }, 500); 
+                }
+            }
+            const { ObjectId } = require('mongoose');
+            const itemModel = mongoose.model('items');
+
+            function addItemToCart(itemId) {
+            console.log(`Adding item to inventory...`);
+
+            const filter = { _id: new ObjectId(itemId) };
+            const update = { $inc: { itmqty: -1 } };
+
+            itemModel.updateOne(filter, update, (err, res) => {
+                if (err) {
+                console.error(`Error updating item:`, err);
+                res.status(500).send({ message: 'Error updating item' });
+                } else {
+                console.log(`Item added to inventory successfully`);
+                res.json({ message: 'Item added to inventory successfully' });
+                }
+            });
+            }
+
+            
+            document.querySelector('.arrow-left .arrow-button').addEventListener('click', toggleSections);
+            document.querySelector('.arrow-right .arrow-button').addEventListener('click', toggleSections);
+        });
 
 
     </script>

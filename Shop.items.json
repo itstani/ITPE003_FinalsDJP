@@ -1,0 +1,160 @@
+[{
+  "_id": {
+    "$oid": "669709ac2949a109f774c451"
+  },
+  "itmn": "reddicewithblackoutline",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "669766cd68f0f5345b55aa4f"
+  },
+  "itmn": "bluelightningdice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697670c68f0f5345b55aa50"
+  },
+  "itmn": "bluemetaldice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697671b68f0f5345b55aa51"
+  },
+  "itmn": "greendicewithbronze",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697672a68f0f5345b55aa52"
+  },
+  "itmn": "lavadice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697673f68f0f5345b55aa53"
+  },
+  "itmn": "cutedice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697674968f0f5345b55aa54"
+  },
+  "itmn": "mariodice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697675768f0f5345b55aa55"
+  },
+  "itmn": "dragondice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697676368f0f5345b55aa56"
+  },
+  "itmn": "flowerdice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697677268f0f5345b55aa57"
+  },
+  "itmn": "purplemetaldice",
+  "itmp": "300",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "669767e268f0f5345b55aa59"
+  },
+  "itmn": "barbarian",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "669767fb68f0f5345b55aa5a"
+  },
+  "itmn": "bard",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697680668f0f5345b55aa5b"
+  },
+  "itmn": "cleric",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697681068f0f5345b55aa5c"
+  },
+  "itmn": "druid",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697681e68f0f5345b55aa5d"
+  },
+  "itmn": "fighter",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697682c68f0f5345b55aa5e"
+  },
+  "itmn": "monk",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697683568f0f5345b55aa5f"
+  },
+  "itmn": "paladin",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697683e68f0f5345b55aa60"
+  },
+  "itmn": "rogue",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697684868f0f5345b55aa61"
+  },
+  "itmn": "sorceror",
+  "itmp": "500",
+  "itmqty": 5
+},
+{
+  "_id": {
+    "$oid": "6697685268f0f5345b55aa62"
+  },
+  "itmn": "wizard",
+  "itmp": "500",
+  "itmqty": 5
+}]

@@ -6,194 +6,142 @@
     <title>Shops and Scams</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
-        
+        .image-container {
+            display: none;
+        }
+        .image-container.show {
+            display: block;
+        }
     </style>
- 
-    
 </head>
-<body onload="onLoadSetValues()">
+<body>
     <div class="headerbg">
         <div class="header"> 
             <div class="title-container">
                 <img id="ribbon" src="Shops and Scams Ribbon.png" alt="Ribbon">
                 <img id="shopsandscams" src="Shops and Scams title.png" alt="Shops and Scams">
-
                 <button type="button" class="inventory-button" onclick="location.href='addtocart.html'">
                     <img id="inventory" src="Inventory.png" alt="Inventory">
                 </button>
-
             </div>
         </div>
     </div>
-    
-    <div class="dicesets">
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/RedDicewithBlackoutline.jpg" alt="RedDicewithBlackoutline">
-            <h2>Antique red 7 Dice set</h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button" onclick="addItemToCart('669709ac2949a109f774c451')">
-            
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/GreenDIceWithBronze.png" alt="GreenDIceWithBronze">
-            <h2>Antique green 7 Dice set</h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/BlueMetalDiceDnD.png" alt="BlueMetalDiceDnD">
-            <h2>Blue Metal 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/cutedice.webp" alt="cutedice">
-            <h2>Cute kirby resin 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/bluelightningdice.jpg" alt="bluelightningdice">
-            <h2>Blue lightning 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/LavaDiceDnD.webp" alt="LavaDiceDnD">
-            <h2>lava red 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/DragonDiceDnD.jpeg" alt="DragonDiceDnD">
-            <h2>Dragonscale 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/FlowerDiceDnD.jpeg" alt="FlowerDiceDnD">
-            <h2>Flower set colorful 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/Gemstonednddice.jpg" alt="Gemstonednddice">
-            <h2>Black gemstone 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Dices/MarioPartyDiceDnD-removebg-preview.png" alt="MarioPartyDiceDnD-removebg-preview">
-            <h2>Mario party 7 Dice set </h2>
-            <p class="title">Dice</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-    </div>
-
-    <div class="minifigures">
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Barbian.jpg" alt="RedDicewithBlackoutline">
-            <h2>Barbarian</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Bard.jpg" alt="GreenDIceWithBronze">
-            <h2>Bard</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Cleric.webp" alt="RedDicewithBlackoutline">
-            <h2>Cleric</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Druid.png" alt="RedDicewithBlackoutline">
-            <h2>Druid</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Wizrad.png" alt="RedDicewithBlackoutline">
-            <h2>Wizard</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Fighter.png" alt="RedDicewithBlackoutline">
-            <h2>Fighter </h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Monk.png" alt="RedDicewithBlackoutline">
-            <h2>Monk</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Paladin.png" alt="RedDicewithBlackoutline">
-            <h2>Paladin</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Rogue.png" alt="RedDicewithBlackoutline">
-            <h2>Rogue</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-        <div class="profile" >
-            <img id="dp-pic" src="/Minifigures/Sorcerer.png" alt="RedDicewithBlackoutline">
-            <h2>Sorcerer</h2>
-            <p class="title">Minifigure</p>
-            <p class="qty">Stock: </p><p id="qty"></p>
-            <input type="button" value="Add to inventory" class="button">
-        </div>
-    </div>
+    <div class="dicesets" id="dicesets"></div>
+    <div class="minifigures" id="minifigures"></div>
 
     <div class="arrow-left">
         <button type="button" class="arrow-button">
             <img src="arrowleft.png" alt="Arrow Left">
         </button>
     </div>
-    
     <div class="arrow-right">
         <button type="button" class="arrow-button">
             <img src="arrowright.png" alt="Arrow Right">
         </button>
     </div>
 
-    <div class="image-container">
-        <img id="success-image" src="Itemadded.png" alt="Item added successfully">
+    <div class="image-container" id="image-container">
+        <img id="success-image" src="itemadded.png" alt="Item added successfully">
     </div>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const dicesets = document.querySelector('.dicesets');
-            const minifigures = document.querySelector('.minifigures');
 
+    <script>
+        const items = [
+            { id: "669709ac2949a109f774c451", name: "Antique red 7 Dice set", imageUrl: "/Dices/RedDicewithBlackoutline.jpg", type: "dice" },
+            { id: "6697671b68f0f5345b55aa51", name: "Antique green 7 Dice set", imageUrl: "/Dices/GreenDIceWithBronze.png", type: "dice" },
+            { id: "669766cd68f0f5345b55aa4f", name: "Blue lightning 7 Dice set", imageUrl: "/Dices/bluelightningdice.jpg", type: "dice" },
+            { id: "6697670c68f0f5345b55aa50", name: "Blue Metal 7 Dice set", imageUrl: "/Dices/BlueMetalDiceDnD.png", type: "dice" },
+            { id: "6697672a68f0f5345b55aa52", name: "Lava dice 7 Dice set", imageUrl: "/Dices/LavaDiceDnD.webp", type: "dice" },
+            { id: "6697673f68f0f5345b55aa53", name: "Cute 7 Dice set", imageUrl: "/Dices/cutedice.webp", type: "dice" },
+            { id: "6697674968f0f5345b55aa54", name: "Mario party 7 Dice set", imageUrl: "/Dices/MarioPartyDiceDnD-removebg-preview.png", type: "dice" },
+            { id: "6697675768f0f5345b55aa55", name: "Dragon Dice 7 Dice set", imageUrl: "/Dices/DragonDiceDnD.jpeg", type: "dice" },
+            { id: "6697676368f0f5345b55aa56", name: "Flower Dice 7 Dice set", imageUrl: "/Dices/FlowerDiceDnD.jpeg", type: "dice" },
+            { id: "6697677268f0f5345b55aa57", name: "Purple metal 7 Dice set", imageUrl: "/Dices/PurpleMetalOctopusDiceDND.png", type: "dice" },
+            { id: "669767e268f0f5345b55aa59", name: "Barbarian", imageUrl: "/Minifigures/Barbian.jpg", type: "minifigure" },
+            { id: "669767fb68f0f5345b55aa5a", name: "Bard", imageUrl: "/Minifigures/Bard.jpg", type: "minifigure" },
+            { id: "6697680668f0f5345b55aa5b", name: "Cleric", imageUrl: "/Minifigures/Cleric.webp", type: "minifigure" },
+            { id: "6697681068f0f5345b55aa5c", name: "Druid", imageUrl: "/Minifigures/Druid.png", type: "minifigure" },
+            { id: "6697681e68f0f5345b55aa5d", name: "Fighter", imageUrl: "/Minifigures/Fighter.png", type: "minifigure" },
+            { id: "6697682c68f0f5345b55aa5e", name: "Monk", imageUrl: "/Minifigures/Monk.png", type: "minifigure" },
+            { id: "6697683568f0f5345b55aa5f", name: "Paladin", imageUrl: "/Minifigures/Paladin.png", type: "minifigure" },
+            { id: "6697683e68f0f5345b55aa60", name: "Rogue", imageUrl: "/Minifigures/Rogue.png", type: "minifigure" },
+            { id: "6697684868f0f5345b55aa61", name: "Sorceror", imageUrl: "/Minifigures/Sorcerer.png", type: "minifigure" },
+            { id: "6697685268f0f5345b55aa62", name: "Wizard", imageUrl: "/Minifigures/Wizrad.png", type: "minifigure" },
+        ];
+
+        function generateItemHTML(item) {
+            return `
+                <div class="profile">
+                    <img id="dp-pic" src="${item.imageUrl}" alt="${item.name}">
+                    <h2>${item.name}</h2>
+                    <p class="title">${item.type === 'dice' ? 'Dice' : 'Minifigure'}</p>
+                    <p class="qty">Stock: </p><p id="qty"></p>
+                    <form class="inventory-form" action="/add-to-cart" method="POST">
+                        <input type="hidden" name="itemId" value="${item.id}">
+                        <input type="submit" value="Add to inventory" class="button">
+                    </form>
+                </div>
+            `;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const dicesets = document.getElementById('dicesets');
+            const minifigures = document.getElementById('minifigures');
+            const imageContainer = document.getElementById('image-container');
+
+            dicesets.innerHTML = items.filter(item => item.type === 'dice').map(generateItemHTML).join('');
+            minifigures.innerHTML = items.filter(item => item.type === 'minifigure').map(generateItemHTML).join('');
+
+            // Handle the form submission via JavaScript
+            document.querySelectorAll('.inventory-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent the default form submission
+
+                    // Get the itemId from the hidden input
+                    const itemId = form.querySelector('input[name="itemId"]').value;
+
+                    // Find the submit button within the form
+                    const button = form.querySelector('input[type="submit"]');
+
+                    // Perform the fetch request
+                    addItemToCart(itemId, button);
+                });
+            });
+
+            function addItemToCart(itemId, buttonElement) {
+                console.log(`Adding item to inventory... ${itemId}`);
+
+                fetch('/add-to-cart', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemId: itemId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    if (data.message === 'Item added to inventory successfully') {
+                        showSuccessImage();
+                    } else if (data.message === 'Item quantity is 0') {
+                        buttonElement.disabled = true;
+                        buttonElement.value = 'Out of stock';
+                    } else {
+                        console.error('Error adding item to inventory:', data.message);
+                        alert('Error adding item to inventory: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding item to inventory:', error);
+                    alert('Error adding item to inventory: ' + error.message);
+                });
+            }
+
+            function showSuccessImage() {
+                imageContainer.classList.add('show');
+                setTimeout(() => {
+                    imageContainer.classList.remove('show');
+                }, 2000); // Show the image for 2 seconds
+            }
+
+            // Add event listeners for the arrow buttons
             minifigures.style.opacity = 0;
             minifigures.style.pointerEvents = 'none';
 
@@ -214,29 +162,10 @@
                     }, 500); 
                 }
             }
-            const { ObjectId } = require('mongoose');
-            const itemModel = mongoose.model('items');
 
-            function addItemToCart(itemId) {
-            console.log(`Adding item to inventory... ${itemId}`);
-
-            
-            fetch('/add-to-cart', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ itemId: itemId })
-                    })
-                .then(response => response.json())
-                .then(data => console.log(data.message))
-                .catch(error => console.error('Error adding item to inventory:', error));
-                }
-
-            
             document.querySelector('.arrow-left .arrow-button').addEventListener('click', toggleSections);
             document.querySelector('.arrow-right .arrow-button').addEventListener('click', toggleSections);
         });
-
-
     </script>
 </body>
 </html>

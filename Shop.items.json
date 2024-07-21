@@ -4,7 +4,9 @@
   },
   "itmn": "reddicewithblackoutline",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "/Dices/RedDicewithBlackoutline.jpg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -12,7 +14,9 @@
   },
   "itmn": "bluelightningdice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "/Dices/bluelightningdice.jpg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -20,7 +24,9 @@
   },
   "itmn": "bluemetaldice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "/Dices/BlueMetalDiceDnD.png",
+  "inInventory": false
 },
 {
   "_id": {
@@ -28,7 +34,9 @@
   },
   "itmn": "greendicewithbronze",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "/Dices/GreenDIceWithBronze.png",
+  "inInventory": false
 },
 {
   "_id": {
@@ -36,7 +44,9 @@
   },
   "itmn": "lavadice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "/Dices/LavaDiceDnD.webp",
+  "inInventory": false
 },
 {
   "_id": {
@@ -44,7 +54,9 @@
   },
   "itmn": "cutedice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "cutedice.webp",
+  "inInventory": false
 },
 {
   "_id": {
@@ -52,7 +64,9 @@
   },
   "itmn": "mariodice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "MarioPartyDiceDnD-removebg-preview.png",
+  "inInventory": false
 },
 {
   "_id": {
@@ -60,7 +74,9 @@
   },
   "itmn": "dragondice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -68,7 +84,9 @@
   },
   "itmn": "flowerdice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "FlowerDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -76,7 +94,9 @@
   },
   "itmn": "purplemetaldice",
   "itmp": "300",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "PurpleMetalOctopusDiceDND.png",
+  "inInventory": false
 },
 {
   "_id": {
@@ -84,7 +104,9 @@
   },
   "itmn": "barbarian",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -92,7 +114,9 @@
   },
   "itmn": "bard",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -100,7 +124,9 @@
   },
   "itmn": "cleric",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -108,7 +134,9 @@
   },
   "itmn": "druid",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -116,7 +144,9 @@
   },
   "itmn": "fighter",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -124,7 +154,9 @@
   },
   "itmn": "monk",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -132,7 +164,9 @@
   },
   "itmn": "paladin",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -140,7 +174,9 @@
   },
   "itmn": "rogue",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -148,7 +184,9 @@
   },
   "itmn": "sorceror",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 },
 {
   "_id": {
@@ -156,5 +194,7 @@
   },
   "itmn": "wizard",
   "itmp": "500",
-  "itmqty": 5
+  "itmqty": 5,
+  "imageUrl": "DragonDiceDnD.jpeg",
+  "inInventory": false
 }]

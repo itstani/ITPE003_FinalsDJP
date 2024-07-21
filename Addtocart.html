@@ -7,22 +7,62 @@
     <title>Shops and Scams</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <style>
+        .item-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: url('itemlist.png') no-repeat center center;
+            background-size: cover;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
 
+        .item-box h2 {
+            margin: 0;
+            padding: 0 10px;
+            flex: 1;
+            text-align: left;
+        }
+
+        .item-box .item-image {
+            max-width: 100px;
+            margin-right: 10px;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .item-controls button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .item-controls .counter {
+            font-size: 20px;
+            margin: 0 10px;
+        }
     </style>
-    <script src="javascriptFile.js"></script>
 </head>
 
 <body>
     <div class="headerbg">
-        <div class="header"> 
+        <div class="header">
             <div class="title-container">
                 <img id="ribbon" src="Shops and Scams Ribbon.png" alt="Ribbon">
                 <img id="shopsandscams" src="Shops and Scams title.png" alt="Shops and Scams">
-
                 <button type="button" class="inventory-button" onclick="location.href='main.html'">
                     <img id="inventory" src="Inventory.png" alt="Inventory">
                 </button>
-
             </div>
         </div>
     </div>
@@ -32,22 +72,67 @@
     </div>
 
     <script>
-        fetch('/api/items')
-          .then(response => response.json())
-          .then(items => {
-            const itemListElement = document.getElementById('item-list');
-            items.forEach(item => {
-              const itemElement = document.createElement('div');
-              itemElement.className = 'item-box';
-              itemElement.innerHTML = `
-                <h2>${item.name}</h2>
-                <p>${item.description}</p>
-                <p>Quantity: ${item.quantity}</p>
-              `;
-              itemListElement.appendChild(itemElement);
-            });
-          })
-          .catch(error => console.error(error));
+        function refreshItems() {
+            fetch('/api/inventory-items')
+                .then(response => response.json())
+                .then(items => {
+                    const itemListElement = document.getElementById('item-list');
+                    itemListElement.innerHTML = ''; // Clear any previous content
+
+                    items.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'item-box';
+                        itemElement.innerHTML = `
+                            <img src="${item.imageUrl}" alt="${item.itmn}" class="item-image">
+                            <h2>${item.itmn}</h2>
+                            <div class="item-controls">
+                                <button class="decrease">-</button>
+                                <span class="counter" id="counter-${item._id}">${item.itmqty}</span>
+                                <button class="increase">+</button>
+                            </div>
+                        `;
+                        itemListElement.appendChild(itemElement);
+
+                        // Add event listeners to buttons
+                        itemElement.querySelector('.increase').addEventListener('click', () => updateQuantity(item._id, 1));
+                        itemElement.querySelector('.decrease').addEventListener('click', () => updateQuantity(item._id, -1));
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching inventory items:', error);
+                });
+        }
+
+        function updateQuantity(itemId, delta) {
+            const counter = document.getElementById(`counter-${itemId}`);
+            let currentQty = parseInt(counter.textContent);
+            const newQuantity = currentQty + delta;
+
+            if (newQuantity < 0) return; // Prevent negative quantities
+
+            counter.textContent = newQuantity;
+
+            // Send the updated quantity to the server
+            updateCart(itemId, newQuantity);
+        }
+
+        function updateCart(itemId, newQuantity) {
+            fetch('/api/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ itemId, quantity: newQuantity })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cart updated:', data);
+                // Optionally, refresh items to reflect updated quantities
+                refreshItems();
+            })
+            .catch(error => console.error('Error updating cart:', error));
+        }
+
+        // Call refreshItems when the page loads
+        document.addEventListener('DOMContentLoaded', refreshItems);
     </script>
 </body>
 

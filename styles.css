@@ -209,3 +209,10 @@ body::after {
 .itemslist{
     color: white;
 }
+.item-image {
+    max-width: 100px; /* Adjust the width as needed */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the image */
+  }
+  

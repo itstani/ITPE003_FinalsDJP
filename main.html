@@ -218,21 +218,18 @@
             const itemModel = mongoose.model('items');
 
             function addItemToCart(itemId) {
-            console.log(`Adding item to inventory...`);
+            console.log(`Adding item to inventory... ${itemId}`);
 
-            const filter = { _id: new ObjectId(itemId) };
-            const update = { $inc: { itmqty: -1 } };
-
-            itemModel.updateOne(filter, update, (err, res) => {
-                if (err) {
-                console.error(`Error updating item:`, err);
-                res.status(500).send({ message: 'Error updating item' });
-                } else {
-                console.log(`Item added to inventory successfully`);
-                res.json({ message: 'Item added to inventory successfully' });
+            
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ itemId: itemId })
+                    })
+                .then(response => response.json())
+                .then(data => console.log(data.message))
+                .catch(error => console.error('Error adding item to inventory:', error));
                 }
-            });
-            }
 
             
             document.querySelector('.arrow-left .arrow-button').addEventListener('click', toggleSections);

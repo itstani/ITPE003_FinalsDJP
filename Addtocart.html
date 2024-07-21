@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +15,6 @@
             padding: 10px;
             margin: 10px;
             border-radius: 8px;
-            color: white;
             font-family: Arial, sans-serif;
         }
 
@@ -41,7 +39,6 @@
         .item-controls button {
             background-color: transparent;
             border: none;
-            color: white;
             font-size: 24px;
             cursor: pointer;
             margin: 0 5px;
@@ -53,7 +50,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="headerbg">
         <div class="header">
@@ -66,10 +62,12 @@
             </div>
         </div>
     </div>
-
     <div class="Itemslist">
         <div id="item-list"></div>
     </div>
+    <button class="steal-button">
+        <img src="steal.png" alt="Steal">
+    </button>
 
     <script>
         function refreshItems() {
@@ -87,7 +85,7 @@
                             <h2>${item.itmn}</h2>
                             <div class="item-controls">
                                 <button class="decrease">-</button>
-                                <span class="counter" id="counter-${item._id}">${item.itmqty}</span>
+                                <span class="counter" id="counter-${item._id}">0</span>
                                 <button class="increase">+</button>
                             </div>
                         `;
@@ -106,14 +104,46 @@
         function updateQuantity(itemId, delta) {
             const counter = document.getElementById(`counter-${itemId}`);
             let currentQty = parseInt(counter.textContent);
-            const newQuantity = currentQty + delta;
+            let newQuantity;
 
-            if (newQuantity < 0) return; // Prevent negative quantities
+            if (delta === 1) {
+                newQuantity = (currentQty === 0) ? 1 : currentQty + delta;
+            } else {
+                newQuantity = (currentQty <= 0) ? 0 : currentQty + delta;
+            }
 
-            counter.textContent = newQuantity;
+            // Check if the new quantity is less than 5
+            if (newQuantity < 5) {
+                alert('Warning: Quantity is low!');
+            }
 
             // Send the updated quantity to the server
             updateCart(itemId, newQuantity);
+        }
+
+        function finalizeQuantity(itemId) {
+            const counter = document.getElementById(`counter-${itemId}`);
+            let currentQty = parseInt(counter.textContent);
+
+            // Ensure quantity is valid before finalizing
+            if (currentQty < 1) {
+                alert('Quantity must be at least 1 to finalize.');
+                return;
+            }
+
+            // Send the finalized quantity to the server
+            fetch('/api/finalize-quantity', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ itemId, quantity: currentQty })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Quantity finalized:', data);
+                // Optionally, refresh items to reflect updated quantities
+                refreshItems();
+            })
+            .catch(error => console.error('Error finalizing quantity:', error));
         }
 
         function updateCart(itemId, newQuantity) {
@@ -125,15 +155,40 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Cart updated:', data);
-                // Optionally, refresh items to reflect updated quantities
-                refreshItems();
+                // Update the quantity in the UI
+                const counter = document.getElementById(`counter-${itemId}`);
+                counter.textContent = newQuantity;
             })
             .catch(error => console.error('Error updating cart:', error));
         }
 
-        // Call refreshItems when the page loads
-        document.addEventListener('DOMContentLoaded', refreshItems);
+        // Add an event listener to the steal button
+        document.querySelector('.steal-button').addEventListener('click', () => {
+            // Get the current quantities from the UI
+            const counters = document.querySelectorAll('.counter');
+            const quantities = {};
+            counters.forEach(counter => {
+                const itemId = counter.id.replace('counter-', '');
+                quantities[itemId] = parseInt(counter.textContent);
+            });
+
+            // Send the quantities to the server to subtract from the database
+            fetch('/api/steal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(quantities)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Quantities subtracted:', data);
+                // Refresh the items to reflect the updated quantities
+                refreshItems();
+            })
+            .catch(error => console.error('Error subtracting quantities:', error));
+        });
+
+        // Initial load
+        refreshItems();
     </script>
 </body>
-
 </html>

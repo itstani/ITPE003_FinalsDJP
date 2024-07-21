@@ -15,13 +15,12 @@ body {
 
 body::after {
     content: "";
-    background-color: #000000;
-    opacity: 0.6;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    position: absolute;
     z-index: -1;
 }
 
@@ -45,11 +44,10 @@ body::after {
 
 #inventory {
     position: absolute;
-    right: 0;
+    right: 20px;
+    top: 20px;
     width: 50px;
     height: 50px;
-    padding-bottom: 10px;
-    padding-right: 20px;
 }
 
 #ribbon {
@@ -148,20 +146,19 @@ body::after {
     background-color: #f7ce65;
 }
 
-.arrow-left {
+.arrow-left, .arrow-right {
     position: fixed;
     top: 50%;
-    left: 20px;
     transform: translateY(-50%);
     z-index: 1;
 }
 
+.arrow-left {
+    left: 20px;
+}
+
 .arrow-right {
-    position: fixed;
-    top: 50%;
     right: 20px;
-    transform: translateY(-50%);
-    z-index: 1;
 }
 
 .arrow-left img, .arrow-right img {
@@ -175,17 +172,17 @@ body::after {
     padding: 0;
     cursor: pointer;
 }
+
 .inventory-button {
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    position: absolute;
-    right: 0;
+    position: fixed;
+    right: 20px;
+    top: 20px;
     width: 50px;
     height: 50px;
-    padding-bottom: 50px;
-    padding-right: 20px;
 }
 
 .inventory-button img {
@@ -194,25 +191,43 @@ body::after {
 }
 
 .image-container {
-    position: fixed; /* Position relative to the viewport */
-    bottom: 20px; /* Adjust for spacing */
+    position: fixed;
+    bottom: 20px;
     left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    opacity: 0; /* Initially hidden */
-    transition: opacity 0.5s ease-in-out; /* Smooth fade */
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .image-container.show {
-    opacity: 1; /* Visible when the class is applied */
+    opacity: 1;
 }
 
-.itemslist{
+.itemslist {
     color: white;
 }
+
 .item-image {
-    max-width: 100px; /* Adjust the width as needed */
+    max-width: 100px;
     height: auto;
     display: block;
-    margin: 0 auto; /* Center the image */
-  }
-  
+    margin: 0 auto;
+}
+
+.steal-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative; /* Change to relative positioning */
+    margin-top: 20px; /* Add margin-top to create space below the items list */
+    width: 500px; /* Adjust width */
+    height: 200px; /* Adjust height */
+}
+
+.steal-button img {
+    width: 100px; /* Make image responsive to container */
+    height: 50px; /* Maintain aspect ratio */
+    display: block; /* Ensure it displays as a block element */
+    align-items: center;
+}

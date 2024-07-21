@@ -77,6 +77,7 @@
                     <p class="qty">Stock: </p><p id="qty"></p>
                     <form class="inventory-form" action="/add-to-cart" method="POST">
                         <input type="hidden" name="itemId" value="${item.id}">
+                        <input type="hidden" name="quantity" value="1">
                         <input type="submit" value="Add to inventory" class="button">
                     </form>
                 </div>
@@ -96,75 +97,42 @@
                 form.addEventListener('submit', function(event) {
                     event.preventDefault(); // Prevent the default form submission
 
-                    // Get the itemId from the hidden input
+                    // Get the itemId and quantity from the hidden inputs
                     const itemId = form.querySelector('input[name="itemId"]').value;
+                    const quantity = parseInt(form.querySelector('input[name="quantity"]').value);
 
                     // Find the submit button within the form
                     const button = form.querySelector('input[type="submit"]');
 
                     // Perform the fetch request
-                    addItemToCart(itemId, button);
+                    addItemToCart(itemId, quantity, button);
                 });
             });
 
-            function addItemToCart(itemId, buttonElement) {
-                console.log(`Adding item to inventory... ${itemId}`);
-
-                fetch('/add-to-cart', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ itemId: itemId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.message);
-                    if (data.message === 'Item added to inventory successfully') {
-                        showSuccessImage();
-                    } else if (data.message === 'Item quantity is 0') {
-                        buttonElement.disabled = true;
-                        buttonElement.value = 'Out of stock';
-                    } else {
-                        console.error('Error adding item to inventory:', data.message);
-                        alert('Error adding item to inventory: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error adding item to inventory:', error);
-                    alert('Error adding item to inventory: ' + error.message);
-                });
-            }
-
-            function showSuccessImage() {
-                imageContainer.classList.add('show');
-                setTimeout(() => {
-                    imageContainer.classList.remove('show');
-                }, 2000); // Show the image for 2 seconds
-            }
-
-            // Add event listeners for the arrow buttons
-            minifigures.style.opacity = 0;
-            minifigures.style.pointerEvents = 'none';
-
-            function toggleSections() {
-                if (dicesets.style.opacity == 1 || dicesets.style.opacity === '') {
-                    dicesets.style.opacity = 0;
-                    dicesets.style.pointerEvents = 'none';
+            function addItemToCart(itemId, quantity) {
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ itemId, quantity })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Item added successfully');
+                    const imageContainer = document.getElementById('image-container');
+                    imageContainer.classList.add('show');
                     setTimeout(() => {
-                        minifigures.style.opacity = 1;
-                        minifigures.style.pointerEvents = 'auto';
-                    }, 500); 
+                        imageContainer.classList.remove('show');
+                    }, 2000); // Hide the image after 2 seconds
                 } else {
-                    minifigures.style.opacity = 0;
-                    minifigures.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        dicesets.style.opacity = 1;
-                        dicesets.style.pointerEvents = 'auto';
-                    }, 500); 
+                    console.error('Error adding item:', data.message);
                 }
-            }
+            })
+            .catch(error => console.error('Fetch error:', error));
+        }
 
-            document.querySelector('.arrow-left .arrow-button').addEventListener('click', toggleSections);
-            document.querySelector('.arrow-right .arrow-button').addEventListener('click', toggleSections);
+        // Initial load
+        displayItems();
         });
     </script>
 </body>

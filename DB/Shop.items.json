@@ -4,9 +4,9 @@
   },
   "itmn": "reddicewithblackoutline",
   "itmp": "300",
-  "itmqty": 5,
+  "itmqty": 4,
   "imageUrl": "/Dices/RedDicewithBlackoutline.jpg",
-  "inInventory": false
+  "inInventory": true
 },
 {
   "_id": {

@@ -77,154 +77,64 @@ app.post('/update-inventory', async (req, res) => {
     }
   } catch (err) {
     console.error('Error updating inventory:', err);
-    res.status(500).json({ error: 'An error occurred while updating the inventory.' });
+    res.status(500).json({ error: 'Failed to update inventory.' });
   }
 });
 
-app.get('/search', async (req, res) => {
-  const { itemId } = req.query;
+app.get('/api/inventory-items', async (req, res) => {
   try {
-    const item = await Item.findOne({ _id: new ObjectId(itemId) });
-    if (item) {
-      console.log('Item found:', item);
-      res.status(200).json(item);
-    } else {
-      console.log('No item found with the provided ID.');
-      res.status(404).json({ error: 'No item found with the provided ID.' });
-    }
-  } catch (err) {
-    console.error('Error searching for item:', err);
-    res.status(500).json({ error: 'An error occurred while searching for the item.' });
+    const items = await Item.find();
+    res.status(200).json(items);
+  } catch (error) {
+    console.error('Error fetching inventory items:', error);
+    res.status(500).json({ error: 'Failed to fetch inventory items.' });
   }
 });
 
-app.post('/add-to-cart', async (req, res) => {
-  const { itemId } = req.body;
-
-  if (!itemId) {
-    return res.status(400).json({ message: 'Item ID is required' });
-  }
-
+app.post('/api/cart', async (req, res) => {
+  const { itemId, quantity } = req.body;
   try {
-    const filter = { _id: new ObjectId(itemId) };
-    const item = await Item.findOne(filter);
-
-    if (item) {
-      if (item.itmqty > 0) {
-        await Item.updateOne(filter, { $inc: { itmqty: -1 }, $set: { inInventory: true } });
-        res.json({ message: 'Item added to inventory successfully' });
-      } else {
-        res.status(400).json({ message: 'Item quantity is zero' });
-      }
-    } else {
-      res.status(404).json({ message: 'Item not found' });
-    }
-  } catch (err) {
-    console.error('Error updating item:', err);
-    res.status(500).json({ message: `Error updating item: ${err.message}` });
+    const cartItem = await Cart.findOneAndUpdate(
+      { itemId: itemId },
+      { quantity: quantity },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(cartItem);
+  } catch (error) {
+    console.error('Error updating cart:', error);
+    res.status(500).json({ error: 'Failed to update cart.' });
   }
 });
 
-  app.get('/api/inventory-items', async (req, res) => {
-    try {
-      const items = await Item.find({ inInventory: true });
-      res.status(200).json(items);
-    } catch (err) {
-      console.error('Error fetching inventory items:', err);
-      res.status(500).json({ message: 'Error fetching inventory items' });
+app.post('/api/steal', async (req, res) => {
+  const quantities = req.body;
+  try {
+    // Loop through each item in the quantities object
+    for (const [itemId, quantity] of Object.entries(quantities)) {
+      // Update the corresponding item's quantity in the database
+      await Item.updateOne(
+        { _id: new ObjectId(itemId) },
+        { $inc: { itmqty: -quantity } }
+      );
     }
-  });
-  
-  app.post('/api/cart', async (req, res) => {
-    const { itemId, quantity } = req.body;
-  
-    if (quantity < 0) return res.status(400).json({ error: 'Invalid quantity' });
-  
-    try {
-      const item = await Item.findById(itemId);
-      if (!item) return res.status(404).json({ error: 'Item not found' });
-  
-      const cartItem = await Cart.findOne({ itemId });
-      if (cartItem) {
-        cartItem.quantity = quantity;
-        await cartItem.save();
-      } else {
-        const newCartItem = new Cart({ itemId, quantity });
-        await newCartItem.save();
-      }
-  
-      res.status(200).json({ message: 'Cart updated' });
-    } catch (err) {
-      console.error('Error updating cart:', err);
-      res.status(500).json({ error: 'An error occurred while updating the cart' });
-    }
-  });
-  
-  app.get('/api/cart-items', async (req, res) => {
-    try {
-      const cartItems = await Cart.find().populate('itemId');
-      res.status(200).json(cartItems);
-    } catch (err) {
-      console.error('Error fetching cart items:', err);
-      res.status(500).json({ message: 'Error fetching cart items' });
-    }
-  });
-  
-  app.delete('/api/cart/:itemId', async (req, res) => {
-    const { itemId } = req.params;
-  
-    try {
-      await Cart.deleteOne({ itemId });
-      res.status(200).json({ message: 'Item removed from cart' });
-    } catch (err) {
-      console.error('Error removing item from cart:', err);
-      res.status(500).json({ message: 'Error removing item from cart' });
-    }
-  });
-  
-  app.post('/api/finalize-quantity', async (req, res) => {
-    const { itemId, quantity } = req.body;
-  
-    if (quantity < 1) return res.status(400).json({ error: 'Quantity must be at least 1' });
-  
-    try {
-      const item = await Item.findById(itemId);
-      if (!item) return res.status(404).json({ error: 'Item not found' });
-  
-      item.itmqty = quantity;
-      item.inInventory = quantity > 0;
-      await item.save();
-  
-      res.status(200).json({ message: 'Quantity finalized', item });
-    } catch (err) {
-      console.error('Error finalizing quantity:', err);
-      res.status(500).json({ error: 'An error occurred while finalizing the quantity' });
-    }
-  });
-  
-  app.post('/api/steal', async (req, res) => {
-    try {
-      const cartItems = await Cart.find().populate('itemId');
-  
-      let totalValue = 0;
-      const itemsTaken = [];
-  
-      for (const cartItem of cartItems) {
-        const item = cartItem.itemId;
-        if (item) {
-          totalValue += item.itmp * cartItem.quantity;
-          itemsTaken.push({
-            name: item.itmn,
-            quantity: cartItem.quantity,
-            price: item.itmp,
-            total: item.itmp * cartItem.quantity
-          });
-        }
-      }
-  
-      res.status(200).json({ totalValue, itemsTaken });
-    } catch (err) {
-      console.error('Error calculating stolen items:', err);
-      res.status(500).json({ message: 'Error calculating stolen items' });
-    }
-  });
+    res.status(200).json({ message: 'Quantities subtracted successfully.' });
+  } catch (error) {
+    console.error('Error subtracting quantities:', error);
+    res.status(500).json({ error: 'Failed to subtract quantities.' });
+  }
+});
+
+app.post('/api/finalize-quantity', async (req, res) => {
+  const { itemId, quantity } = req.body;
+  try {
+    await Cart.findOneAndUpdate(
+      { itemId: itemId },
+      { quantity: quantity },
+      { upsert: true, new: true }
+    );
+    res.status(200).json({ message: 'Quantity finalized successfully.' });
+  } catch (error) {
+    console.error('Error finalizing quantity:', error);
+    res.status(500).json({ error: 'Failed to finalize quantity.' });
+  }
+});

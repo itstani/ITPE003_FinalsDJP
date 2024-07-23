@@ -28,7 +28,6 @@
     </div>
     <div class="dicesets" id="dicesets"></div>
     <div class="minifigures" id="minifigures"></div>
-
     <div class="arrow-left">
         <button type="button" class="arrow-button">
             <img src="arrowleft.png" alt="Arrow Left">
@@ -39,11 +38,9 @@
             <img src="arrowright.png" alt="Arrow Right">
         </button>
     </div>
-
     <div class="image-container" id="image-container">
         <img id="success-image" src="itemadded.png" alt="Item added successfully">
     </div>
-
     <script>
         const items = [
             { id: "669709ac2949a109f774c451", name: "Antique red 7 Dice set", imageUrl: "/Dices/RedDicewithBlackoutline.jpg", type: "dice" },
@@ -75,7 +72,7 @@
                     <h2>${item.name}</h2>
                     <p class="title">${item.type === 'dice' ? 'Dice' : 'Minifigure'}</p>
                     <p class="qty">Stock: </p><p id="qty"></p>
-                    <form class="inventory-form" action="/add-to-cart" method="POST">
+                    <form class="inventory-form" action="/api/cart" method="POST">
                         <input type="hidden" name="itemId" value="${item.id}">
                         <input type="hidden" name="quantity" value="1">
                         <input type="submit" value="Add to inventory" class="button">
@@ -92,47 +89,74 @@
             dicesets.innerHTML = items.filter(item => item.type === 'dice').map(generateItemHTML).join('');
             minifigures.innerHTML = items.filter(item => item.type === 'minifigure').map(generateItemHTML).join('');
 
-            // Handle the form submission via JavaScript
             document.querySelectorAll('.inventory-form').forEach(form => {
                 form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent the default form submission
+                    event.preventDefault();
 
-                    // Get the itemId and quantity from the hidden inputs
                     const itemId = form.querySelector('input[name="itemId"]').value;
                     const quantity = parseInt(form.querySelector('input[name="quantity"]').value);
-
-                    // Find the submit button within the form
                     const button = form.querySelector('input[type="submit"]');
 
-                    // Perform the fetch request
                     addItemToCart(itemId, quantity, button);
                 });
             });
 
-            function addItemToCart(itemId, quantity) {
-            fetch('/add-to-cart', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ itemId, quantity })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Item added successfully');
-                    const imageContainer = document.getElementById('image-container');
-                    imageContainer.classList.add('show');
-                    setTimeout(() => {
-                        imageContainer.classList.remove('show');
-                    }, 2000); // Hide the image after 2 seconds
-                } else {
-                    console.error('Error adding item:', data.message);
-                }
-            })
-            .catch(error => console.error('Fetch error:', error));
-        }
+            function addItemToCart(itemId, quantity, buttonElement) {
+                fetch('/api/cart', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemId, quantity })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(text) });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.itemId) {
+                        showSuccessImage();
+                    } else {
+                        console.error('Error adding item to inventory:', data.error);
+                        alert('Error adding item to inventory: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding item to inventory:', error);
+                    alert('Error adding item to inventory: ' + error.message);
+                });
+            }
 
-        // Initial load
-        displayItems();
+            function showSuccessImage() {
+                imageContainer.classList.add('show');
+                setTimeout(() => {
+                    imageContainer.classList.remove('show');
+                }, 2000);
+            }
+
+            minifigures.style.opacity = 0;
+            minifigures.style.pointerEvents = 'none';
+
+            function toggleSections() {
+                if (dicesets.style.opacity == 1 || dicesets.style.opacity === '') {
+                    dicesets.style.opacity = 0;
+                    dicesets.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        minifigures.style.opacity = 1;
+                        minifigures.style.pointerEvents = 'auto';
+                    }, 500);
+                } else {
+                    minifigures.style.opacity = 0;
+                    minifigures.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        dicesets.style.opacity = 1;
+                        dicesets.style.pointerEvents = 'auto';
+                    }, 500);
+                }
+            }
+
+            document.querySelector('.arrow-left .arrow-button').addEventListener('click', toggleSections);
+            document.querySelector('.arrow-right .arrow-button').addEventListener('click', toggleSections);
         });
     </script>
 </body>

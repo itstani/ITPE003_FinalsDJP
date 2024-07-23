@@ -9,7 +9,7 @@ const port = 3000;
 const collectionName = 'items'; 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/Shop')
+mongoose.connect('mongodb://127.0.0.1:27017/Shop')
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(port, () => {
@@ -83,11 +83,22 @@ app.post('/update-inventory', async (req, res) => {
 
 app.get('/api/inventory-items', async (req, res) => {
   try {
-    const items = await Item.find();
+    const items = await Item.find(); // Ensure this includes updated quantities if items are in the cart
     res.status(200).json(items);
   } catch (error) {
     console.error('Error fetching inventory items:', error);
     res.status(500).json({ error: 'Failed to fetch inventory items.' });
+  }
+});
+
+app.get('/api/cart', async (req, res) => {
+  try {
+    const cartItems = await Cart.find().populate('itemId').exec();
+    console.log('Fetched cart items:', cartItems); // Debugging
+    res.status(200).json(cartItems);
+  } catch (error) {
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ error: 'Failed to fetch cart items.' });
   }
 });
 
@@ -109,9 +120,7 @@ app.post('/api/cart', async (req, res) => {
 app.post('/api/steal', async (req, res) => {
   const quantities = req.body;
   try {
-    // Loop through each item in the quantities object
     for (const [itemId, quantity] of Object.entries(quantities)) {
-      // Update the corresponding item's quantity in the database
       await Item.updateOne(
         { _id: new ObjectId(itemId) },
         { $inc: { itmqty: -quantity } }

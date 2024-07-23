@@ -11,10 +11,11 @@
             display: flex;
             align-items: center;
             background: url('itemlist.png') no-repeat center center;
-            background-size: cover;
+            background-size: 200%;
             padding: 10px;
             margin: 10px;
             border-radius: 8px;
+            height: 100px;
             font-family: Arial, sans-serif;
         }
 
@@ -30,6 +31,10 @@
             margin-right: 10px;
         }
 
+        #item-list {
+            color: white;
+        }
+
         .item-controls {
             display: flex;
             align-items: center;
@@ -42,11 +47,22 @@
             font-size: 24px;
             cursor: pointer;
             margin: 0 5px;
+            color: white;
         }
 
         .item-controls .counter {
             font-size: 20px;
             margin: 0 10px;
+        }
+
+        .steal-button {
+            width: auto;
+            height: auto;
+            margin-bottom: 50px;
+        }
+
+        .steal-button img {
+            max-width: 200px;
         }
     </style>
 </head>
@@ -70,58 +86,57 @@
     </button>
 
     <script>
-        function refreshItems() {
-            fetch('/api/inventory-items')
-                .then(response => response.json())
-                .then(items => {
-                    const itemListElement = document.getElementById('item-list');
-                    itemListElement.innerHTML = ''; // Clear any previous content
+        async function refreshItems() {
+            try {
+                const response = await fetch('/api/cart');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const cartItems = await response.json();
+                console.log('Cart items:', cartItems); // Debugging
+                const itemListElement = document.getElementById('item-list');
+                itemListElement.innerHTML = ''; // Clear any previous content
 
-                    items.forEach(item => {
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'item-box';
-                        itemElement.innerHTML = `
-                            <img src="${item.imageUrl}" alt="${item.itmn}" class="item-image">
-                            <h2>${item.itmn}</h2>
-                            <div class="item-controls">
-                                <button class="decrease">-</button>
-                                <span class="counter" id="counter-${item._id}">0</span>
-                                <button class="increase">+</button>
-                            </div>
-                        `;
-                        itemListElement.appendChild(itemElement);
+                cartItems.forEach(cartItem => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'item-box';
+                    itemElement.innerHTML = `
+                        <img src="${cartItem.itemId.imageUrl}" alt="${cartItem.itemId.itmn}" class="item-image">
+                        <h2>${cartItem.itemId.itmn}</h2>
+                        <div class="item-controls">
+                            <button class="decrease">-</button>
+                            <span class="counter" id="counter-${cartItem.itemId._id}">${cartItem.quantity}</span>
+                            <button class="increase">+</button>
+                        </div>
+                    `;
+                    itemListElement.appendChild(itemElement);
 
-                        // Add event listeners to buttons
-                        itemElement.querySelector('.increase').addEventListener('click', () => updateQuantity(item._id, 1));
-                        itemElement.querySelector('.decrease').addEventListener('click', () => updateQuantity(item._id, -1));
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching inventory items:', error);
+                    // Add event listeners to buttons
+                    itemElement.querySelector('.increase').addEventListener('click', () => updateQuantity(cartItem.itemId._id, 1));
+                    itemElement.querySelector('.decrease').addEventListener('click', () => updateQuantity(cartItem.itemId._id, -1));
                 });
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
         }
 
-        function updateQuantity(itemId, delta) {
+        async function updateQuantity(itemId, delta) {
             const counter = document.getElementById(`counter-${itemId}`);
             let currentQty = parseInt(counter.textContent);
-            let newQuantity;
+            let newQuantity = currentQty + delta;
 
-            if (delta === 1) {
-                newQuantity = (currentQty === 0) ? 1 : currentQty + delta;
-            } else {
-                newQuantity = (currentQty <= 0) ? 0 : currentQty + delta;
-            }
-
-            // Check if the new quantity is less than 5
-            if (newQuantity < 5) {
-                alert('Warning: Quantity is low!');
+            // Ensure the new quantity is not negative
+            if (newQuantity < 0) {
+                newQuantity = 0;
             }
 
             // Send the updated quantity to the server
-            updateCart(itemId, newQuantity);
+            try {
+                await updateCart(itemId, newQuantity);
+            } catch (error) {
+                console.error('Error updating cart:', error);
+            }
         }
 
-        function finalizeQuantity(itemId) {
+        async function finalizeQuantity(itemId) {
             const counter = document.getElementById(`counter-${itemId}`);
             let currentQty = parseInt(counter.textContent);
 
@@ -132,39 +147,39 @@
             }
 
             // Send the finalized quantity to the server
-            fetch('/api/finalize-quantity', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ itemId, quantity: currentQty })
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const response = await fetch('/api/finalize-quantity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemId, quantity: currentQty })
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
                 console.log('Quantity finalized:', data);
-                // Optionally, refresh items to reflect updated quantities
                 refreshItems();
-            })
-            .catch(error => console.error('Error finalizing quantity:', error));
+            } catch (error) {
+                console.error('Error finalizing quantity:', error);
+            }
         }
 
-        function updateCart(itemId, newQuantity) {
-            fetch('/api/cart', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ itemId, quantity: newQuantity })
-            })
-            .then(response => response.json())
-            .then(data => {
+        async function updateCart(itemId, newQuantity) {
+            try {
+                const response = await fetch('/api/cart', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemId, quantity: newQuantity })
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
                 console.log('Cart updated:', data);
-                // Update the quantity in the UI
                 const counter = document.getElementById(`counter-${itemId}`);
                 counter.textContent = newQuantity;
-            })
-            .catch(error => console.error('Error updating cart:', error));
+            } catch (error) {
+                console.error('Error updating cart:', error);
+            }
         }
 
-        // Add an event listener to the steal button
-        document.querySelector('.steal-button').addEventListener('click', () => {
-            // Get the current quantities from the UI
+        document.querySelector('.steal-button').addEventListener('click', async () => {
             const counters = document.querySelectorAll('.counter');
             const quantities = {};
             counters.forEach(counter => {
@@ -172,19 +187,19 @@
                 quantities[itemId] = parseInt(counter.textContent);
             });
 
-            // Send the quantities to the server to subtract from the database
-            fetch('/api/steal', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(quantities)
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const response = await fetch('/api/steal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(quantities)
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
                 console.log('Quantities subtracted:', data);
-                // Refresh the items to reflect the updated quantities
                 refreshItems();
-            })
-            .catch(error => console.error('Error subtracting quantities:', error));
+            } catch (error) {
+                console.error('Error subtracting quantities:', error);
+            }
         });
 
         // Initial load

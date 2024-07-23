@@ -114,6 +114,7 @@ body::after {
     color: #fffebd;
     -webkit-text-stroke: 0.7px rgb(0, 0, 0);
     font-size: 15px;
+    height: 30px;
 }
 
 .profile p {
@@ -131,7 +132,7 @@ body::after {
     background-color: #fffebd;
     border: none;
     color: #030303;
-    padding: 10px 20px;
+    padding: 15px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;

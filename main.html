@@ -101,31 +101,32 @@
                 });
             });
 
-            function addItemToCart(itemId, quantity, buttonElement) {
+            function addItemToCart(itemId, quantityChange, buttonElement) {
                 fetch('/api/cart', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ itemId, quantity })
+                    body: JSON.stringify({ itemId, quantityChange })
                 })
                 .then(response => {
                     if (!response.ok) {
-                        return response.text().then(text => { throw new Error(text) });
+                    return response.text().then(text => { throw new Error(text) });
                     }
                     return response.json();
                 })
                 .then(data => {
                     if (data.itemId) {
-                        showSuccessImage();
+                    showSuccessImage();
                     } else {
-                        console.error('Error adding item to inventory:', data.error);
-                        alert('Error adding item to inventory: ' + data.error);
+                    console.error('Error adding item to inventory:', data.error);
+                    alert('Error adding item to inventory: ' + data.error);
                     }
                 })
                 .catch(error => {
                     console.error('Error adding item to inventory:', error);
                     alert('Error adding item to inventory: ' + error.message);
                 });
-            }
+                }
+
 
             function showSuccessImage() {
                 imageContainer.classList.add('show');

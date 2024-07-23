@@ -231,3 +231,13 @@ body::after {
     display: block; /* Ensure it displays as a block element */
     align-items: center;
 }
+.item-controls .delete-item {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.item-controls .delete-item img {
+    max-width: 20px;
+}

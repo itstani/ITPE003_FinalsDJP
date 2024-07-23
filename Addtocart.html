@@ -91,9 +91,9 @@
                 const response = await fetch('/api/cart');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const cartItems = await response.json();
-                console.log('Cart items:', cartItems); // Debugging
+                console.log('Cart items:', cartItems); 
                 const itemListElement = document.getElementById('item-list');
-                itemListElement.innerHTML = ''; // Clear any previous content
+                itemListElement.innerHTML = ''; 
 
                 cartItems.forEach(cartItem => {
                     const itemElement = document.createElement('div');
@@ -102,107 +102,76 @@
                         <img src="${cartItem.itemId.imageUrl}" alt="${cartItem.itemId.itmn}" class="item-image">
                         <h2>${cartItem.itemId.itmn}</h2>
                         <div class="item-controls">
-                            <button class="decrease">-</button>
-                            <span class="counter" id="counter-${cartItem.itemId._id}">${cartItem.quantity}</span>
-                            <button class="increase">+</button>
+                            <button onclick="updateItemQuantity('${cartItem.itemId._id}', -1)">-</button>
+                            <span class="counter">${cartItem.quantity}</span>
+                            <button onclick="updateItemQuantity('${cartItem.itemId._id}', 1)">+</button>
+                            <button onclick="deleteItem('${cartItem._id}')">🗑️</button>
+
                         </div>
                     `;
                     itemListElement.appendChild(itemElement);
-
-                    // Add event listeners to buttons
-                    itemElement.querySelector('.increase').addEventListener('click', () => updateQuantity(cartItem.itemId._id, 1));
-                    itemElement.querySelector('.decrease').addEventListener('click', () => updateQuantity(cartItem.itemId._id, -1));
                 });
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
         }
 
-        async function updateQuantity(itemId, delta) {
-            const counter = document.getElementById(`counter-${itemId}`);
-            let currentQty = parseInt(counter.textContent);
-            let newQuantity = currentQty + delta;
-
-            // Ensure the new quantity is not negative
-            if (newQuantity < 0) {
-                newQuantity = 0;
-            }
-
-            // Send the updated quantity to the server
-            try {
-                await updateCart(itemId, newQuantity);
-            } catch (error) {
-                console.error('Error updating cart:', error);
-            }
-        }
-
-        async function finalizeQuantity(itemId) {
-            const counter = document.getElementById(`counter-${itemId}`);
-            let currentQty = parseInt(counter.textContent);
-
-            // Ensure quantity is valid before finalizing
-            if (currentQty < 1) {
-                alert('Quantity must be at least 1 to finalize.');
-                return;
-            }
-
-            // Send the finalized quantity to the server
-            try {
-                const response = await fetch('/api/finalize-quantity', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ itemId, quantity: currentQty })
-                });
-                if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                console.log('Quantity finalized:', data);
-                refreshItems();
-            } catch (error) {
-                console.error('Error finalizing quantity:', error);
-            }
-        }
-
-        async function updateCart(itemId, newQuantity) {
+        async function updateItemQuantity(itemId, change) {
             try {
                 const response = await fetch('/api/cart', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ itemId, quantity: newQuantity })
+                    body: JSON.stringify({ itemId, quantityChange: change })
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                console.log('Cart updated:', data);
-                const counter = document.getElementById(`counter-${itemId}`);
-                counter.textContent = newQuantity;
+                const result = await response.json();
+                console.log('Item quantity updated:', result);
+                refreshItems();
             } catch (error) {
-                console.error('Error updating cart:', error);
+                console.error('Error updating item quantity:', error);
             }
         }
 
-        document.querySelector('.steal-button').addEventListener('click', async () => {
-            const counters = document.querySelectorAll('.counter');
-            const quantities = {};
-            counters.forEach(counter => {
-                const itemId = counter.id.replace('counter-', '');
-                quantities[itemId] = parseInt(counter.textContent);
-            });
 
+
+        async function deleteItem(itemId) {
+            try {
+                const response = await fetch(`/api/cart/${itemId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (!response.ok) {
+                throw new Error(`Error deleting item: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('Item deleted:', result);
+                refreshItems();
+            } catch (error) {
+                console.error('Error deleting item:', error);
+            }
+            }
+
+
+
+
+        document.querySelector('.steal-button').addEventListener('click', async () => {
             try {
                 const response = await fetch('/api/steal', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(quantities)
+                    body: JSON.stringify({})
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                const data = await response.json();
-                console.log('Quantities subtracted:', data);
+                const result = await response.json();
+                console.log('Items stolen:', result);
                 refreshItems();
             } catch (error) {
-                console.error('Error subtracting quantities:', error);
+                console.error('Error stealing items:', error);
             }
         });
 
-        // Initial load
         refreshItems();
     </script>
 </body>

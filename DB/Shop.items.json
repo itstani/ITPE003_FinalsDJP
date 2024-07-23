@@ -4,9 +4,9 @@
   },
   "itmn": "reddicewithblackoutline",
   "itmp": "300",
-  "itmqty": 4,
+  "itmqty": 5,
   "imageUrl": "/Dices/RedDicewithBlackoutline.jpg",
-  "inInventory": true
+  "inInventory": false
 },
 {
   "_id": {
@@ -55,7 +55,7 @@
   "itmn": "cutedice",
   "itmp": "300",
   "itmqty": 5,
-  "imageUrl": "cutedice.webp",
+  "imageUrl": "/Dices/cutedice.webp",
   "inInventory": false
 },
 {
@@ -65,7 +65,7 @@
   "itmn": "mariodice",
   "itmp": "300",
   "itmqty": 5,
-  "imageUrl": "MarioPartyDiceDnD-removebg-preview.png",
+  "imageUrl": "/Dices/MarioPartyDiceDnD-removebg-preview.png",
   "inInventory": false
 },
 {
@@ -75,7 +75,7 @@
   "itmn": "dragondice",
   "itmp": "300",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Dices/DragonDiceDnD.jpeg",
   "inInventory": false
 },
 {
@@ -85,7 +85,7 @@
   "itmn": "flowerdice",
   "itmp": "300",
   "itmqty": 5,
-  "imageUrl": "FlowerDiceDnD.jpeg",
+  "imageUrl": "/Dices/FlowerDiceDnD.jpeg",
   "inInventory": false
 },
 {
@@ -95,7 +95,7 @@
   "itmn": "purplemetaldice",
   "itmp": "300",
   "itmqty": 5,
-  "imageUrl": "PurpleMetalOctopusDiceDND.png",
+  "imageUrl": "/Dices/PurpleMetalOctopusDiceDND.png",
   "inInventory": false
 },
 {
@@ -105,7 +105,7 @@
   "itmn": "barbarian",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Barbian.jpg",
   "inInventory": false
 },
 {
@@ -115,7 +115,7 @@
   "itmn": "bard",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/bard.jpg",
   "inInventory": false
 },
 {
@@ -125,7 +125,7 @@
   "itmn": "cleric",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/cleric.webp",
   "inInventory": false
 },
 {
@@ -135,7 +135,7 @@
   "itmn": "druid",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Druid.png",
   "inInventory": false
 },
 {
@@ -145,7 +145,7 @@
   "itmn": "fighter",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Fighter.png",
   "inInventory": false
 },
 {
@@ -155,7 +155,7 @@
   "itmn": "monk",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Monk.png",
   "inInventory": false
 },
 {
@@ -165,7 +165,7 @@
   "itmn": "paladin",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Paladin.png",
   "inInventory": false
 },
 {
@@ -175,7 +175,7 @@
   "itmn": "rogue",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Rogue.png",
   "inInventory": false
 },
 {
@@ -185,7 +185,7 @@
   "itmn": "sorceror",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Sorceror.png",
   "inInventory": false
 },
 {
@@ -195,6 +195,6 @@
   "itmn": "wizard",
   "itmp": "500",
   "itmqty": 5,
-  "imageUrl": "DragonDiceDnD.jpeg",
+  "imageUrl": "/Minifigures/Wizrad.png",
   "inInventory": false
 }]

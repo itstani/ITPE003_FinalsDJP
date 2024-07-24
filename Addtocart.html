@@ -64,6 +64,16 @@
         .steal-button img {
             max-width: 200px;
         }
+        
+        .cartItems {
+            text-align: center;
+            width: auto;
+        }
+
+        .cartItems input[type=image] {
+            width: 50%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -78,43 +88,64 @@
             </div>
         </div>
     </div>
-    <div class="Itemslist">
+
+     <div class="Itemslist">
         <div id="item-list"></div>
     </div>
-    <button class="steal-button">
-        <img src="steal.png" alt="Steal">
-    </button>
 
+    <form class="cartItems" id="stealForm">
+        <input type="image" src="steal.png" class="steal-button" alt="Steal">
+    </form>
+    
     <script>
-        async function refreshItems() {
-            try {
-                const response = await fetch('/api/cart');
-                if (!response.ok) throw new Error('Network response was not ok');
-                const cartItems = await response.json();
-                console.log('Cart items:', cartItems); 
-                const itemListElement = document.getElementById('item-list');
-                itemListElement.innerHTML = ''; 
+    async function refreshItems() {
+        try {
+            const response = await fetch('/api/cart');
+            if (!response.ok) throw new Error('Network response was not ok');
+            const cartItems = await response.json();
+            console.log('Cart items:', cartItems); 
+            const itemListElement = document.getElementById('item-list');
+            itemListElement.innerHTML = ''; 
 
-                cartItems.forEach(cartItem => {
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'item-box';
-                    itemElement.innerHTML = `
-                        <img src="${cartItem.itemId.imageUrl}" alt="${cartItem.itemId.itmn}" class="item-image">
-                        <h2>${cartItem.itemId.itmn}</h2>
-                        <div class="item-controls">
-                            <button onclick="updateItemQuantity('${cartItem.itemId._id}', -1)">-</button>
-                            <span class="counter">${cartItem.quantity}</span>
-                            <button onclick="updateItemQuantity('${cartItem.itemId._id}', 1)">+</button>
-                            <button onclick="deleteItem('${cartItem._id}')">🗑️</button>
-
-                        </div>
-                    `;
-                    itemListElement.appendChild(itemElement);
-                });
-            } catch (error) {
-                console.error('Error fetching cart items:', error);
-            }
+            cartItems.forEach(cartItem => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item-box';
+                itemElement.innerHTML = 
+                    `<img src="${cartItem.itemId.imageUrl}" alt="${cartItem.itemId.itmn}" class="item-image">
+                    <h2>${cartItem.itemId.itmn}</h2>
+                    <div class="item-controls">
+                        <button onclick="updateItemQuantity('${cartItem.itemId._id}', -1)">-</button>
+                        <span class="counter">${cartItem.quantity}</span>
+                        <button onclick="updateItemQuantity('${cartItem.itemId._id}', 1)">+</button>
+                        <button onclick="deleteItem('${cartItem._id}')">🗑️</button>
+                    </div>`;
+                itemListElement.appendChild(itemElement);
+            });
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
         }
+    }
+
+    document.getElementById('stealForm').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+
+        try {
+            const response = await fetch('/api/steal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('Items stolen:', result);
+            refreshItems(); // Refresh the items displayed on the page
+        } catch (error) {
+            console.error('Error stealing items:', error);
+        }
+    });
 
         async function updateItemQuantity(itemId, change) {
             try {
@@ -132,45 +163,24 @@
             }
         }
 
-
-
         async function deleteItem(itemId) {
             try {
                 const response = await fetch(`/api/cart/${itemId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
                 });
-                
+
                 if (!response.ok) {
-                throw new Error(`Error deleting item: ${response.status}`);
+                    throw new Error(`Error deleting item: ${response.status}`);
                 }
-                
+
                 const result = await response.json();
                 console.log('Item deleted:', result);
                 refreshItems();
             } catch (error) {
                 console.error('Error deleting item:', error);
             }
-            }
-
-
-
-
-        document.querySelector('.steal-button').addEventListener('click', async () => {
-            try {
-                const response = await fetch('/api/steal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({})
-                });
-                if (!response.ok) throw new Error('Network response was not ok');
-                const result = await response.json();
-                console.log('Items stolen:', result);
-                refreshItems();
-            } catch (error) {
-                console.error('Error stealing items:', error);
-            }
-        });
+        }
 
         refreshItems();
     </script>

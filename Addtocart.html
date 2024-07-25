@@ -94,7 +94,7 @@
     </div>
 
     <form class="cartItems" id="stealForm">
-        <input type="image" src="steal.png" class="steal-button" alt="Steal">
+        <input type="image" src="steal.png" class="steal-button" alt="Steal" onclick="location.href='reciept.html'">
     </form>
     
     <script>
@@ -127,8 +127,7 @@
     }
 
     document.getElementById('stealForm').addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent the default form submission
-
+        event.preventDefault(); 
         try {
             const response = await fetch('/api/steal', {
                 method: 'POST',
@@ -141,7 +140,7 @@
 
             const result = await response.json();
             console.log('Items stolen:', result);
-            refreshItems(); // Refresh the items displayed on the page
+            refreshItems();
         } catch (error) {
             console.error('Error stealing items:', error);
         }

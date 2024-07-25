@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shops and Scams - Receipt</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .item-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: url('itemlist.png') no-repeat center center;
+            background-size: 200%;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            height: 100px;
+            font-family: Arial, sans-serif;
+        }
+
+        .item-box h2 {
+            margin: 0;
+            padding: 0 10px;
+            flex: 1;
+            text-align: left;
+        }
+
+        .item-box .item-image {
+            max-width: 100px;
+            margin-right: 10px;
+        }
+
+        #item-list {
+            color: white;
+
+            background-size: cover;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .inventory-button img {
+            width: 50px; /* Adjust as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="headerbg">
+        <div class="header">
+            <div class="title-container">
+                <img id="ribbon" src="Shops and Scams Ribbon.png" alt="Ribbon">
+                <img id="shopsandscams" src="Shops and Scams title.png" alt="Shops and Scams">
+                <button type="button" class="inventory-button" onclick="location.href='main.html'">
+                    <img id="inventory" src="Inventory.png" alt="Inventory">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="Itemslist">
+        <div id="item-list"></div>
+    </div>
+
+    <script>
+        async function refreshItems() {
+            try {
+                const response = await fetch('/api/steal-items');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const stealItems = await response.json();
+                console.log('Steal items received:', stealItems); // Debugging line
+                
+                const itemListElement = document.getElementById('item-list');
+                itemListElement.innerHTML = '';
+    
+                stealItems.forEach(stealItem => {
+                    const item = stealItem.itemId;
+                    if (item) {
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'item-box';
+                        itemElement.innerHTML = 
+                            `<img src="${item.imageUrl}" alt="${item.itmn}" class="item-image">
+                            <h2>${item.itmn}</h2>
+                            <p>₱${item.itmp}</p>`
+                            
+                            ;
+
+                        itemListElement.appendChild(itemElement);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching steal items:', error);
+            }
+        }
+    
+        refreshItems();
+    </script>
+    
+</body>
+</html>
